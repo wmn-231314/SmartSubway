@@ -1,0 +1,54 @@
+ion-content{
+    overflow: hidden;
+    //color: linear-gradient(86.63deg, #88D7BA 14.1%, rgba(56, 109, 245, 0.8) 99.49%);
+    ion-icon{
+        font-size: 22px;
+        color: #29D3AB;
+    }
+    .text-of-name{
+        font-size: 22px;
+    }
+
+    .card-layout{
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        .activity-card{
+            border-radius: 10px;
+            text-align: center;
+            .broadcast{
+            font-size: 15px;         
+            }
+            .img-style{
+                width: 100%;
+                height:100%;
+                display: block;
+                margin: auto;
+            }
+        }
+    }
+    .content-st{
+        overflow-y:auto ;
+        overflow-x:auto ;
+        padding-top: 20px;
+        height: 700px;
+        padding-left: 20px;
+        padding-right: 20px;
+        .myworks-card-layout{
+            border-radius: 10px;  
+            height: 223px;
+            width:100%;
+            margin-bottom: 20px;
+            .img-style{
+                width: 100%;
+                height: 170px;
+                display: block;
+            }
+            .work-title{
+                text-align: left;
+                font-size: 18px;
+                color: #000000;
+            }
+        }
+    }
+}
