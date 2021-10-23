@@ -1,5 +1,7 @@
 {
   "name": "SmartSubway",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
