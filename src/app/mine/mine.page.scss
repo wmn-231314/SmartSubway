@@ -5,13 +5,13 @@ ion-content{
         .user_top{
             height: 140px;
             background: white;
-            padding: 3rem 1rem;
+            padding: 3rem 0rem;
             display: flex;
             align-items: center;
 
             .user_left{
                 position: relative;
-                left: 23px;
+                left: 13px;
                 .user_style{
                     width: 80px;
                     height: 80px;
@@ -27,7 +27,7 @@ ion-content{
                 font-family: Heiti SC;
                 font-style: normal;
                 font-weight: bold;
-                font-size: 18px;
+                font-size: 16px;
                 padding-bottom: 10px;
             }
             .user-number{

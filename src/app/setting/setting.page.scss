@@ -1,0 +1,39 @@
+ion-header{
+    .title{
+        text-align: center;
+    }
+}
+
+ion-content{
+        --ion-background-color:rgba(128, 128, 128, 0.150);
+    .list-layout{
+        padding: 1rem 0rem;
+        .user_list{
+            background: #FFFFFF;
+            --ion-background-color:white;
+            // border: 1px solid #000000;
+            // box-sizing: border-box;
+            // border-radius: 10px;
+            ion-item{
+                // box-sizing: border-box;
+                // border-radius: 20px;
+                background-color: white;
+                
+            }
+            ion-icon{
+                font-size: 2.0rem;
+            }
+            span{
+                font-size: 1.6rem;
+            }
+            // .btn-spec {
+            //     margin-left: 15px !important;
+            // }
+        }
+        .switch{
+            width: 100%;
+            text-align: center;
+        }
+        
+    }
+}
