@@ -1,20 +1,91 @@
-import { Component } from '@angular/core';
+import { Component,OnInit} from '@angular/core';
 import * as echarts from 'echarts'
 
 import *as $ from "jquery";
 // 引入数据处理api
 import {subwayDataProcessor} from "./prepro";
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
+declare var BMap;
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
-
-  constructor() {}
+export class Tab2Page implements OnInit{
+  data :any;
+  map: any;
+  localaddress: any = null;
+  constructor(private geolocation:Geolocation) {}
   ionViewDidEnter(){
-   this.echartInit();}
+   this.echartInit();
+   
+  }
+  ngOnInit() {
+    console.log("ngOnInit()调用");
+  // 百度地图API功能
+	// this.map = new BMap.Map("allmap");  // 创建Map实例
+	// this.map.centerAndZoom("北京市");      // 初始化地图,用城市名设置地图中心点
+  // this.map.enableScrollWheelZoom(true);
+  this.getLocation();
+ 
+}
+getLocation() {
+  let marker =null;
+  let circle =null;
+  //getCurrentPosition()方法为geolocation定位插件的定位获取坐标信息
+      this.geolocation.getCurrentPosition().then((resp) => {
+        //if (resp && resp.coords) {
+          //创建地图中心点
+          //let locationPoint = new BMap.Point(resp.coords.longitude, resp.coords.latitude);
+          //通过geolocation定位插件获取到的经纬度坐标需要转换为百度坐标，否则在百度地图显示会出现偏差
+          // let convertor = new BMap.Convertor();//坐标转换对象
+          // let pointArr = [];//创建坐标数组
+          // pointArr.push(locationPoint);
+          // //坐标转换
+          // // 第一个属性为坐标数组，
+          // // 第二个属性为坐标原始类型，
+          // // 第三个属性为坐标目的类型，5为百度坐标
+          // convertor.translate(pointArr, 1, 5, (data) => {
+          //   if (data.status === 0) {
+          //     //创建覆盖物标注
+          //     marker = new BMap.Marker(data.points[0]);
+          //     //创建圆形覆盖物
+          //     circle = new  BMap.Circle(data.points[0],100,{
+          //       fillColor:"blue",//圆形填充颜色。当参数为空时，圆形将没有填充效果
+          //       fillOpacity:0.1,//圆形填充的透明度，取值范围0 - 1
+          //       strokeOpacity:0.3,//圆形边线透明度，取值范围0 - 1
+          //       strokeWeight:1//圆形边线的宽度，以像素为单位
+          //     })
+          //     marker.setPosition(data.points[0]);
+          //     //将地图中心点更改为指定坐标点
+          //     this.map.panTo(data.points[0]);
+          //     //设置地图缩放级别
+          //     this.map.setZoom(17);
+          //     //添加地图标注
+          //     this.map.addOverlay(marker);
+          //     this.map.addOverlay(circle);
+          //     //设置标注动画，在移动端未生效，暂时未知原因
+          //     marker.setAnimation(2); //跳动的动画
+          //     //创建地址解析对象Geocoder，可将地理位置与坐标点正反转换
+          //     var geoc = new BMap.Geocoder();
+          //     //将坐标点解析为地理位置
+          //     geoc.getLocation(data.points[0],(res)=>{
+          //       this.localaddress = res.addressComponents;
+          //       alert(this.localaddress.province+"-"+this.localaddress.city+"-"+this.localaddress.district+"-"+this.localaddress.street+"-"+this.localaddress.streetNumber);
+          //     });
+          //   }
+          // })
+          console.log('GPS定位：您的位置是 ' + resp.coords.longitude + ',' + resp.coords.latitude);
+          
+       // }
+      }).catch(e => {
+    alert("定位失败");
+        console.log('Error happened when get current position.');
+      });
+      console.log('hhhhhhhhhhh');
+}
    echartInit(){
      // let myChart = echarts.init(<HTMLDivElement>document.getElementById('chart'));
    const ec = echarts as any;
@@ -48,6 +119,8 @@ export class Tab2Page {
 
      //Descriptions: 初始化Echarts图标
      chart.setOption({
+         
+
        dataset: {
          source: datasetSource.stationsDataSet,
        },
@@ -72,6 +145,11 @@ export class Tab2Page {
        legend: {
 
        },
+       bmap:{
+        center: [270,681],
+        zoom: 10,
+        roam: true,
+       },
        //Descriptions: 图例
        grid: {
          left: 0,
@@ -82,6 +160,7 @@ export class Tab2Page {
        animation: false,
        //Descriptions: 设置图表大小
        //Descriptions: 控制窗口缩放
+      
        dataZoom: [{
          //Descriptions: 控制Y轴
          // dataZoom的模式
@@ -91,6 +170,8 @@ export class Tab2Page {
          throttle: 0,
          // 最小缩放比例
          minSpan: 20,
+        // startValue:270,
+
          moveOnMouseWheel: false,
          // 数据过滤模式
          filterMode: 'empty',
@@ -100,16 +181,20 @@ export class Tab2Page {
          xAxisIndex: 0,
          throttle: 70,
          minSpan: 20,
+       //  startValue:681,
          moveOnMouseWheel: false,
          filterMode: 'empty',
        },
        ],
        //Descriptions: 线路图与站点图
        series: [{
+
          //Descriptions: 线路图
          name: '线路',
          type: 'lines',
          coordinateSystem: 'cartesian2d',
+         center: [270,681],
+        // coordinateSystem: 'bmap',
          //Descriptions: 绘图数据
          data: linesData,
          polyline: true,
@@ -179,10 +264,12 @@ export class Tab2Page {
          // 触发对象
          trigger: 'item',
        },
+
+
      })
 
      // 设置浏览器窗口改变时图表自动调整大小
-     window.onresize = chart.resize
+    window.onresize = chart.resize
 
    });
   }
